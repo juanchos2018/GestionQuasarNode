@@ -1,0 +1,85 @@
+<template>
+     <q-page class="q-pa-md">
+        <h5>Elementos </h5> 
+         <q-btn color="primary" style="width: 150px"  @click="DialogoElemento=true">
+         <div class="ellipsis">
+            Agregar
+            </div>            
+         </q-btn>
+         
+     <br><br>
+         <div class=" row"  >
+           <div class=" q-pa-md col-4" v-for="item in items" :key="item.key"  >   
+           <q-card class="my-card" flat bordered>
+                <q-card-section horizontal>
+                    <q-card-section class="q-pt-xs">
+                    <div class="text-overline">Elemento</div>
+                    <div class="text-h5 q-mt-sm q-mb-xs"> {{item.nombre}}</div>
+                    <div class="text-caption text-grey">
+                      texto
+                    </div>
+                    </q-card-section>
+
+                    <q-card-section class="col-5 flex flex-center">
+                    <q-img
+                        class="rounded-borders"
+                        src="https://cdn.quasar.dev/img/parallax2.jpg"
+                    />
+                    </q-card-section>
+                </q-card-section>
+           <q-separator />
+            <q-card-actions>
+                <q-btn flat round icon="event" />
+                <q-btn flat>
+                Editar
+                </q-btn>
+                <q-btn flat color="primary">
+                Eliminar
+                </q-btn>
+            </q-card-actions> 
+     </q-card>
+        </div>
+     </div>
+          <elemento-nuevo @CerrarModal="CerrarModal" :DialogoElemento="DialogoElemento"  v-on:ListarElemento-Emit="ListaElemento"></elemento-nuevo>
+  </q-page>
+</template>
+
+<script>
+
+import ElementoNuevo from './ElementoNuevo';
+export default {
+        components: { ElementoNuevo },
+        data () {
+            return {
+                items:[],
+                elementos:[],
+                DialogoElemento:false,
+                DialogoModificar:false,               
+                id_elemento:'', 
+            
+            }
+        },
+        mounted(){
+             //   this.GetDatos()
+        },
+        created(){
+            this.ListaElemento();
+        },
+        methods:{
+          
+           ListaElemento(){
+                  let me=this;
+                  this.$axios.get('Elemento/Listar/').then(response => {                                         
+                         me.items = response.data;                      
+                  }).catch(function (error) {
+                      console.log(error);
+                  }) .finally(() => {                     
+                })
+            },        
+            CerrarModal() {
+                     
+                    this.DialogoElemento = false;           
+             },
+        }
+}
+</script>
