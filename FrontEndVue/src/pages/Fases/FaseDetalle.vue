@@ -36,7 +36,7 @@
       <q-expansion-item
         group="somegroup"
         icon="explore"
-        :label="item.nombre_elemento + item.id_cronograma_elemento"
+        :label="item.nombre_elemento "
         header-class="text-primary"
       >
         <q-card>

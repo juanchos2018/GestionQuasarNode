@@ -17,7 +17,7 @@
           <q-btn flat label="Cerrar" color="primary" v-close-popup />
          <!-- <q-btn flat label="Accept" color="primary" v-close-popup />
           -->
-          <h5>{{idproyecto}}</h5>
+        
             <q-btn color="primary" label="Registrar"  @click="RegistrarMiembro" />
         </q-card-actions>
         
@@ -115,8 +115,7 @@ export default {
                   elementos.map(function(x){
                     if(x.tipousuario=="Miembro"){
                          me.usuarios.push({label: x.nombre,value:x.id_usuario});
-                   }
-                      
+                   }                      
                  });  
               }).catch(function(error){
                   console.log(error);
@@ -126,13 +125,11 @@ export default {
              let me=this;
                   var elementos=[];
                    this.$axios.get('Rol/Listar',).then(function(response){                      
-                  elementos=response.data;   
-                 //  console.log(response.data)
+                  elementos=response.data;             
                   elementos.map(function(x){
                     if (x.nombre!="Jefe de Proyecto"){
                          me.roles.push({label: x.nombre,value:x.id_rol});
-                    } 
-                       
+                    }                        
                  });  
               }).catch(function(error){
                   console.log(error);
@@ -146,8 +143,7 @@ export default {
             title: '<strong>Alerta </strong>',
             icon: 'info',
             html:
-              'Este usuario ya es miembro ' ,
-          
+              'Este usuario ya es miembro ' ,          
           })
        }, 
        Confirmacion(){

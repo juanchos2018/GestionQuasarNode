@@ -83,6 +83,7 @@
 
   </div>
       <div>
+        <p>{{usuariojefeId}}</p>
         <q-btn label="Rrgistrar" type="button" @click="RegistrarProyecto" color="primary"/>
         <q-btn label="Cancelar" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
@@ -152,7 +153,7 @@ export default {
     },
     mounted() {
     
-      if(localStorage.idtipo) this.usuariojefeId = localStorage.id_usuario;
+      if(localStorage.id_usuario) this.usuariojefeId = localStorage.id_usuario;
       console.log(this.usuariojefeId)
      
     },

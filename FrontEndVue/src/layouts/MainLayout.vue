@@ -62,7 +62,14 @@
               <q-item-label> Proyecto</q-item-label>
           </q-item-section>              
           </q-item>
-
+      <q-item   clickable  to='/usuarios' v-if="esJefe"> 
+          <q-item-section avatar>
+            <q-icon name="school"> </q-icon>
+          </q-item-section>
+          <q-item-section>
+              <q-item-label> Usuarios</q-item-label>
+          </q-item-section>              
+          </q-item>
           <q-item   clickable  to='/tareasmiembro' v-if="esMiembro"> 
           <q-item-section avatar>
             <q-icon name="school"> </q-icon>

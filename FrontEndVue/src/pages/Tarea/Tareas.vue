@@ -23,8 +23,7 @@
             </div>
         </div>
         <br>
-        <label>Fecha inicio</label><br />
-        <label>fecha fin</label>
+        
       </q-card-section>
     </q-card>
 
@@ -59,10 +58,11 @@
                     <q-card-section horizontal>
                         <q-card-section class="q-pt-xs">
                      
-                        <div class="text-h6 q-mt-sm q-mb-xs">{{ item.descripcion }}</div>
-                        <div class="text-caption text-grey">
-                           <q-badge outline color="primary" :label="item.estado1" />                         
-                        </div>
+                        <div class="text-h6 q-mt-sm q-mb-xs">{{ item.descripcion }}    <q-badge outline color="primary" :label="item.estado1" style="margin-left:10px" /> </div>
+                       
+                       <!-- <div class="text-caption text-grey">
+                                                 
+                        </div> -->
                         </q-card-section>  
                      <!--   <q-card-section class="col-5 flex flex-center">
                         <q-img
@@ -72,8 +72,32 @@
                         </q-card-section>  -->
                     </q-card-section>
                       <q-card-section>
-                        <q-linear-progress :value="progress" class="q-mt-md" />
-                        <label for="">Res.: {{item.nombre}}</label>                      
+                            <q-slider
+                            name="speed"
+                            v-model="item.porcentajeavance"
+                            label-always
+                            :min="0"
+                            :max="100"
+                            :step="1"
+                            :label-value="+ item.porcentajeavance + ' %'"
+                            disabled
+                          />
+                     <!--   <q-linear-progress :value="progress" class="q-mt-md" /> -->
+
+
+                        <label for="">Res.: {{item.nombre}}</label>   
+                          <div class="row">
+                          <div class="col-6">
+                              <label for="" style="color: #1A86D0;  font-weight:bold;">Fecha Inicio</label> <br>
+                              <label for="">{{item.fecha_inicio}}</label>
+
+                          </div>
+                          <div class="col-6">
+                                <label for="" style="color: #1A86D0;  font-weight:bold;">Fecha Termino</label> <br>
+                                 <label for="">{{item.fecha_termino}}</label>
+                          </div>         
+                      
+                          </div>                   
                         </q-card-section>
                     <q-separator />
                     <q-card-actions>

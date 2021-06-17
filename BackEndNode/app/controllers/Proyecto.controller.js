@@ -4,6 +4,8 @@ const dataModels = require('../models/Proyecto.model')
 const connection = require('../../config/connection')
 
 function AgregarProyecto (req, res) {
+
+    //nombre_proyecto,fecha_inicio,fecha_termino,descripcion,estado,metodologiaId,usuariojefeId,porcentaje
     const {nombre_proyecto,fecha_inicio,fecha_termino,descripcion,estado,metodologiaId,usuariojefeId,porcentaje,ListaFases} =  req.body   
     dataModels.AgregarProyecto({nombre_proyecto,fecha_inicio,fecha_termino,descripcion,estado,metodologiaId,usuariojefeId,porcentaje,ListaFases}, (data, error) => {
         res.json(data)

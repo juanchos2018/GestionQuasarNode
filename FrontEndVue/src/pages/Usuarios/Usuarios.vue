@@ -1,6 +1,6 @@
 <template>
-     <q-page class="q-pa-md">
-        <h5>Miemros Proyecto </h5>       
+      <q-page class="q-pa-md">
+        <h5>Usuarios </h5>       
          
      <br><br>
          <div class=" row"  >
@@ -14,10 +14,10 @@
                     />
                     </q-card-section>
                     <q-card-section class="q-pt-xs">
-                    <div class="text-overline">Miembro</div>
+                    <div class="text-overline">Usuario</div>
                     <div class="text-h5 q-mt-sm q-mb-xs"> {{item.nombre}}</div>
                     <div class="text-caption text-grey">
-                      {{item.nombre_rol}}
+                      {{item.tipousuario}}
                     </div>
                     </q-card-section>                  
                 </q-card-section>
@@ -47,64 +47,37 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 Vue.use(VueSweetalert2);
 
-
 export default {
-    components: {   },
+ components: {   },
 
-    data(){
-        return{  
-              DialogoModificar:false,
-              DialogUsuario:false,
-              nombremiembro:'',
-              search: '',
-              items:[],
-              id:'',
-             }
-      },
-      created(){
-        
-          },
-      mounted(){
-          this.GetDatos()
-          },
-      computed: {
-            ListaFiltro() {
-                return this.items.filter(post => {
-                return post.nombre.toLowerCase().includes(this.search.toLowerCase())
+ data(){
+     return{
+          items:[],
+          DialogUsuario:false,
+              }
+ },
+ created(){
+      this. ListaUsuarios();   
+    },
+ methods:{
+       CerrarModal() {
+           this.DialogUsuario = false;             
+       },
+       ListaUsuarios(){
+           let me=this;
+              this.$axios.get('Usuario/Listar').then(response => {                     
+                      me.items = response.data;       
+                      console.log(response.data)               
+                  }).catch(function (error) {
+                      console.log(error);
+                  }) .finally(() => {
+                     
             })
-          }
-      },
-      methods:{
-          GetDatos(){
-            var item = this.$route.params.idproyecto
-              if(item){        
-                  this.ListarMiembrosProyecto(item);                   
-              }   
-          },
-          AbrirDialogo(id,nombre){
-            this.id=id;
-            this.nombremiembro=nombre;
-            this.DialogoModificar=true;  
-
-          },
-          ListarMiembrosProyecto(id){
-                let me=this;
-                this.$axios.get('Miembro/MiembroProyecto/'+id).then(response => {                         
-                     me.items = response.data;   
-                      console.log(response.data)       
-                    }).catch(function (error) {
-                            console.log(error);
-                    }) .finally(() => {
-                })
-            },
-            CerrarModal() {
-                this.DialogUsuario = false;
-                this.DialogoModificar=false;             
-            },          
-             Tareas(id_proyecto){              
-                this.$router.push({name:"miembrotareas",params:{id_proyecto} });
-            },
-            Mensaje(){
+       },     
+       Tareas(){
+         // this.$router.push('/app/usuariotareas');
+       },
+         Mensaje(){
                 Swal.fire({
                     title: 'Desea Eliminar?',
                     text: "ya no se podra revertir!",
@@ -123,7 +96,8 @@ export default {
                     }
                     })
             }
-    }
+       
+  }
 
 }
 </script>

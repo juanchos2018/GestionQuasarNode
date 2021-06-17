@@ -16,8 +16,15 @@ function ListaProyectoMiembro(req, res) {
         res.json(data)
     })
 }
-
+function ListaProyectoJefe(req, res) {   
+    const { id } = req.params
+    console.log("llega: "+id);
+    dataModels.ListaProyectoJefe(id, (data, error) => {
+        res.json(data)
+    })
+}
 module.exports = {
     Listar, 
-    ListaProyectoMiembro
+    ListaProyectoMiembro,
+    ListaProyectoJefe
 }

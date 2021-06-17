@@ -3,17 +3,21 @@
 const connection = require('../../config/connection')
 const dataCronograma = require('./Cronograma.model')
 const dataCronogramaFase=require('./CronogramaFase.model')
+const datamiembro =require('./Miembro.model')
+
+
 var dataModels = {
 
     AgregarProyecto  :  (data, callback) => {
         if(connection) {
-
-
             let sqle= `select *  from  proyecto where nombre_proyecto= ${connection.escape(data.nombre_proyecto)} `  
             connection.query(sqle, (error,result, rows) => {
                 if(error) throw error
                 var count =result.length;
                 if(count==0){   
+                    var usuario_miembroid =data.usuariojefeId;
+                    var rolId=1;
+                   
                     let sql = `insert  into proyecto (nombre_proyecto,fecha_inicio,fecha_termino,descripcion,estado,metodologiaId,usuariojefeId,porcentaje) 
                     values (${connection.escape(data.nombre_proyecto)}, ${connection.escape(data.fecha_inicio)}, ${connection.escape(data.fecha_termino)},${connection.escape(data.descripcion)},
                     ${connection.escape(data.estado)}, ${connection.escape(data.metodologiaId)},${connection.escape(data.usuariojefeId)},"0")`
@@ -21,6 +25,7 @@ var dataModels = {
                         if(error) throw error
                     
                             let coronogramaId;
+                            var proyectoId=result.insertId;
                             var dataCrono={fecha_inicio:data.fecha_inicio,fecha_termino:data.fecha_termino,id_proyecto:result.insertId}
                             
                             dataCronograma.AgregarCronograma(dataCrono, (dato, error)=>{                 
@@ -36,7 +41,11 @@ var dataModels = {
                                                 id_fase:              row.id_fase,
                                                 });                          
                                         if (size==vector.length){
+                                            var datosmeibro={usuario_miembroid,rolId,proyectoId}
+                                            datamiembro.AgregarMiembro(datosmeibro,(datas,error)=>{
                                                 callback({vector:vector,estado:'NoExiste'})
+                                            })
+                                               
                                             } 
                                     });                    
                                 })

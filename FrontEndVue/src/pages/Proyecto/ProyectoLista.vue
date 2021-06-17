@@ -63,7 +63,7 @@
      </div>
     </div>       
 
-          <miembro-nuevo @CerrarModal="CerrarModal"   v-bind:idproyecto="idproyecto" :DialogMiembro="DialogMiembro" > </miembro-nuevo>
+          <miembro-nuevo @CerrarModal="CerrarModal"   v-bind:idproyecto="idproyecto" v-bind:id_usuario_jefe="idusuario"   :DialogMiembro="DialogMiembro"  v-on:Listar-Proyecto-Emit="ListarPoryectosUsuario"> </miembro-nuevo>
   </q-page>
 </template>
 
@@ -77,28 +77,36 @@ export default {
                  listaMiembros:[],
                  items:[],
                   DialogMiembro:false,
-                       
+                  idusuario:'',
                   id_elemento:'', 
                   idproyecto:'',   
-               
+                  idtipousuario:'',
             
             }
         },
         mounted(){
              //   this.GetDatos()
+                  if(localStorage.idtipo) this.idtipousuario = localStorage.idtipo;
+                   if(localStorage.idtipo) this.idusuario = localStorage.id_usuario;
+                    this.ListarPoryectosUsuario(this.idusuario);  
         },
         created(){
-              this.ListarProyecto();
+            //  this.ListarProyecto();
         },
         methods:{
             IdProyecto(){
                   this.$router.push({name:"proyectonuevo" });   
             },           
-            ListarProyecto(){
+            ListarPoryectosUsuario(id){
              let me=this;
-               this.$axios.get('Proyecto/Listar/').then(response => {                    
+                if (id=="") {
+                    alert("llega vacio")
+                    return;
+                }
+            
+               this.$axios.get('Usuario/ListaProyectoJefe/'+id).then(response => {                    
                       me.items = response.data;  
-                   //   console.log(response.data);   
+                     console.log(response.data);   
                       me.LisrarMiembrosProyecto();                 
                   }).catch(function (error) {
                       console.log(error);

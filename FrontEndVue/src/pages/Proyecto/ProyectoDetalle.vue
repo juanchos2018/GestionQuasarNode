@@ -21,7 +21,7 @@
         </div>         
          <div class="row">
             <div class="col-4">
-                <label for=""  >Fecha Inicio</label> <br>
+                <label for=""  style="color: #1A86D0;  font-weight:bold;" >Fecha Inicio</label> <br>
                 <label for="">{{fecha_inicio}}</label>
             </div>
             <div class="col-4">
@@ -43,7 +43,7 @@
             <div style="display: flex;">
               <font-awesome-icon :icon="myIcon" size="5x" />
               <div class="text-h6 " style="margin-left:5%">Nuevo</div>
-              <div class="text-h6 " style="margin-left:5%">4</div>
+              <div class="text-h6 " style="margin-left:5%">0</div>
             </div>
           </q-card-section>
         </q-card>
@@ -57,8 +57,8 @@
           <q-card-section class="q-pt-none">
             <div style="display: flex;">
               <font-awesome-icon :icon="myIcon" size="5x" />
-              <div class="text-h6 " style="margin-left:5%">Nuevo</div>
-              <div class="text-h6 " style="margin-left:5%">4</div>
+              <div class="text-h6 " style="margin-left:5%">Proceso</div>
+              <div class="text-h6 " style="margin-left:5%">0</div>
             </div>
           </q-card-section>
         </q-card>
@@ -72,8 +72,8 @@
           <q-card-section class="q-pt-none">
             <div style="display: flex;">
               <font-awesome-icon :icon="myIcon" size="5x" />
-              <div class="text-h6 " style="margin-left:5%">Nuevo</div>
-              <div class="text-h6 " style="margin-left:5%">4</div>
+              <div class="text-h6 " style="margin-left:5%">Terminado</div>
+              <div class="text-h6 " style="margin-left:5%">0</div>
             </div>
           </q-card-section>
         </q-card>

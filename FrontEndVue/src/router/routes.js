@@ -71,6 +71,7 @@ const routes = [
       { name: "tareadetalle",path: '/tareadetalle/:data', component: () => import('pages/Tarea/TareaDetalle.vue') },
       { name: "tareasmiembro",path: 'tareasmiembro', component: () => import('pages/Tarea/TareaMiembro.vue') },
       { name: "tareasdetallemiembro",path: 'tareasdetallemiembro/:id', component: () => import('pages/Tarea/TareaDetalleMiembro.vue') },
+      { name: "usuarios",path: 'usuarios', component: () => import('pages/Usuarios/Usuarios.vue') },
 
     ]
   },   
