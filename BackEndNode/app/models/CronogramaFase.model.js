@@ -12,7 +12,29 @@ var dataModels = {
                 callback({idCronograma_fase : result.insertId})
             })
         }
-    }
+    },
+    ObtenerCronogramaFase : (data,callback) => {
+        if(connection) {
+            let sql = `SELECT id_cronograma_fase, porcentaje, porcentaje_avance from  cronogramafase    WHERE id_cronograma_fase= ${connection.escape(data)}`
+            connection.query(sql, (error, rows) => {
+                if(error) throw error
+                callback(rows[0])
+            })
+        }
+    }, 
+
+
+    UpdatateCronogramaFase : (data,callback) => {
+        if(connection) {
+            let sql = `UPDATE cronogramafase SET porcentaje_avance= ${connection.escape(data.porcentaje)}  WHERE id_cronograma_fase= ${connection.escape(data.id)}`
+            connection.query(sql, (error, rows) => {
+                if(error) throw error
+                callback({message: ' actualizado'})
+            })
+        }
+    }, 
+
 }
+
 
 module.exports = dataModels

@@ -9,8 +9,7 @@
         <q-card-section style="max-height: 50vh" >
        
           <q-select outlined v-model="idfase" :options="fasesmetodologia" label="Fase" map-options />
-        <br>
-                
+        <br>                
            <q-select outlined v-model="id_elemento" :options="elentosConfi" label="Elemento" map-options />
         </q-card-section>         
        
@@ -24,6 +23,15 @@
 </template>
 
 <script>
+
+
+import Vue from "vue";
+import axios from "axios";
+import Swal from "sweetalert2";
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+Vue.use(VueSweetalert2);
+
 export default {
     name: 'fases-elemento',
         props:{
@@ -88,10 +96,19 @@ export default {
             },
              Registrar(){
                 let faseId=this.idfase.value;
-                let elementoId=this.id_elemento.value;                
-                const obj={faseId,elementoId};  
+                let elementoId=this.id_elemento.value;    
+                let metodologiaId=this.idmetodologia;            
+                const obj={faseId,elementoId,metodologiaId};  
+              //  alert(metodologiaId)
                 this.$axios.post('PlantillaElemento/Agregar/',obj).then(response => {                       
-                  console.log(response);                 
+                   console.log(response);       
+                   var estado=response.data.estado;
+                  this.CerrarModal();
+                  if(estado=="Existe"){
+                    this.Existe(); 
+                  } else{
+                    this.Confirmacion();                  
+                  }          
                 }).catch(function (error) {
                       console.log(error);
                 }) 
@@ -114,6 +131,9 @@ export default {
                     timer: 3000
                 })
             },
+             CerrarModal() {
+              this.$emit("CerrarModal");
+          },
     }
 }
 </script>

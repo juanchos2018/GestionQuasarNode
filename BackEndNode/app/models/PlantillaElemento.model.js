@@ -5,12 +5,21 @@ const connection = require('../../config/connection')
 var dataModels = {
    
     AgregarPlantillaElemento : (data, callback) => {
-        if(connection) {
-            let sql = `insert into plantillaelementoconfiguracion (faseId, elementoId) values (${connection.escape(data.faseId)}, ${connection.escape(data.elementoId)})`
-            connection.query(sql, (error, rows) => {
+        if(connection) {          
+            let sqle= `select *  from  plantillaelementoconfiguracion where faseId=${connection.escape(data.faseId)} and  elementoId= ${connection.escape(data.elementoId)} and metodologiaId =${connection.escape(data.metodologiaId)} `  
+            connection.query(sqle, (error,result, rows) => {
                 if(error) throw error
-                callback({message : 'insertado plantilla'})
-            })
+                var count =result.length;
+                if(count==0){   
+                    let sql = `insert into plantillaelementoconfiguracion (faseId, elementoId,metodologiaId) values (${connection.escape(data.faseId)}, ${connection.escape(data.elementoId)},${connection.escape(data.metodologiaId)})`
+                        connection.query(sql, (error, rows) => {
+                            if(error) throw error
+                            callback({message : 'Exito, :',estado:'NoExiste'})
+                        })
+                }else{
+                    callback({message : 'Alerta, :',estado:'Existe'})
+                }               
+            })  
         }
     },
     ListarPlantillaElemento: (callback) => {   

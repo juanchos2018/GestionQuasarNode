@@ -5,7 +5,7 @@ const {  AgregarFase} = require('../controllers/Fases.controller')
 
 
 
-route.route('/Fases/Agregar').post(AgregarFase)
+route.route('/Fases/AgregarFase').post(AgregarFase)
 //route.route('/elemento/Listar').get(Listar)
 
 

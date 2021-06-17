@@ -4,8 +4,7 @@ const dataModels = require('../models/metodologia.model')
 const connection = require('../../config/connection')
 
 async function Listar(req, res) {
-    dataModels.Listar((data, error) => {
-        // 404 500
+    dataModels.Listar((data, error) => {        
         res.json(data)
     })
 }
@@ -16,8 +15,25 @@ function FasesMetodologia(req, res) {
         res.json(data)
     })
 }
+
+ function ListarTodas(req, res) {
+    dataModels.ListarTodas((data, error) => {     
+        res.json(data)
+    })
+}
+
+
+function AgregarMetodologia (req, res) {
+    const {nombre} =  req.body   
+    dataModels.AgregarMetodologia( {nombre}, (data, error) => {
+        res.json(data)
+    })
+}
+
 module.exports = {
     Listar,
-    FasesMetodologia
- 
+    FasesMetodologia,
+    ListarTodas,
+    AgregarMetodologia
+
 }

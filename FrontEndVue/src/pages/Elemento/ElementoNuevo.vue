@@ -25,6 +25,13 @@
 </template>
 
 <script>
+import Vue from "vue";
+import axios from "axios";
+import Swal from "sweetalert2";
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+Vue.use(VueSweetalert2);
+
 export default {
       name: 'elemento-nuevo',
       props:{
@@ -52,12 +59,28 @@ export default {
          methods: {
               RegistrarElemento(){
                 let codigo_elemento=this.codigo;   
-                let nombre=this.nombre;                
+                let nombre=this.nombre;       
+                
+                 if(nombre==""){
+                        alert("llenar campo");
+                        return;
+                 }
+                 if (codigo_elemento==""){
+                        alert("llenar campo");
+                        return;
+                 }
                 const obj={codigo_elemento,nombre};
                  this.$axios.post('elemento/Agregar/',obj).then(response => {  
-                    console.log(response)
-                    this.ListarElemetos();
-                        
+                    console.log(response)                   
+                    var estado=response.data.estado;
+                    this.CerrarModal();
+                    if(estado=="Existe"){
+                        this.Existe(); 
+                    } else{
+                        this.Confirmacion();    
+                        this.ListarElemetos();  
+                        this.Limpiar();            
+                    }    
                 }).catch(function (error) {
                     console.log(error);
                 }) .finally(() => {
@@ -75,7 +98,7 @@ export default {
                     title: '<strong>Alerta </strong>',
                     icon: 'info',
                     html:
-                    'Este fase existe  ' ,                
+                    'Este ecs existe  ' ,                
                 })
             }, 
             Confirmacion(){
@@ -88,6 +111,10 @@ export default {
                     timer: 3000
                 })
             },
+            Limpiar(){
+                this.codigo="";   
+                this.nombre="";
+            }
     }
 }
 </script>

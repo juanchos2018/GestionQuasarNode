@@ -26,4 +26,13 @@ app.use(require('./routes/Proyecto.route'))
 app.use(require('./routes/Miembro.route'))
 app.use(require('./routes/Fases.route'))
 app.use(require('./routes/CronogramaElemento.route'))
+app.use(require('./routes/usuario.route'))
+app.use(require('./routes/Rol.route'))
+app.use(require('./routes/Login.route'))
+app.use(require('./routes/Version.route'))
+app.use(require('./routes/Tarea.route'))
+app.use(require('./routes/Commit.route'))
+app.use(require('./routes/Historial.route'))
+app.use(require('./routes/CronogramaFase.route'))
+
 module.exports = app

@@ -5,8 +5,9 @@
          <div class="ellipsis">
             Agregar
             </div>            
-         </q-btn>
-         <div class="row"  >
+      </q-btn>
+
+     <div class="row"  >
             <div class="q-pa-md col-6" v-for="item in items" :key="item.key">
             <q-card class="my-card">
             <q-card-section>
@@ -22,7 +23,7 @@
                        <q-icon name="account_circle" class="big-icon" />
                     </q-item-section>
                     <q-item-section>
-                        <q-item-label>Nuevo Miembro</q-item-label>                     
+                        <q-item-label @click="AbrirDialogo(item.id_proyecto)">Nuevo Miembro</q-item-label>                     
                     </q-item-section>                   
                     </q-item>
                     <q-item clickable v-close-popup >
@@ -30,7 +31,7 @@
                         <q-icon name="vertical_split" class="big-icon" />                        
                     </q-item-section>
                     <q-item-section>
-                        <q-item-label>Miembros</q-item-label>                       
+                        <q-item-label @click="Miembros(item.id_proyecto)" >Miembros</q-item-label>                       
                     </q-item-section>                   
                     </q-item>
                 </q-list>
@@ -61,23 +62,24 @@
       </q-card>
      </div>
     </div>       
+
+          <miembro-nuevo @CerrarModal="CerrarModal"   v-bind:idproyecto="idproyecto" :DialogMiembro="DialogMiembro" > </miembro-nuevo>
   </q-page>
 </template>
 
 
 <script>
-
+import MiembroNuevo from '../../pages/Miembro/MiembroNuevo';
 export default {
-        components: {  },
+        components: { MiembroNuevo },
         data () {
             return {
                  listaMiembros:[],
                  items:[],
-              
-                DialogoElemento:false,
-                DialogoModificar:false,           
-                id_elemento:'', 
-             
+                  DialogMiembro:false,
+                       
+                  id_elemento:'', 
+                  idproyecto:'',   
                
             
             }
@@ -96,7 +98,7 @@ export default {
              let me=this;
                this.$axios.get('Proyecto/Listar/').then(response => {                    
                       me.items = response.data;  
-                      console.log(response.data);   
+                   //   console.log(response.data);   
                       me.LisrarMiembrosProyecto();                 
                   }).catch(function (error) {
                       console.log(error);
@@ -107,7 +109,7 @@ export default {
               let me=this;              
                this.$axios.get('Miembro/Listar').then(response => {                    
                       me.listaMiembros = response.data; 
-                      console.log(response.data)                        
+                      //console.log(response.data)                        
                         for(var i=0;i< me.items.length ;i++){
                             for  (var e=0;e< me.listaMiembros.length ;e++){
                                 if(me.items[i].id_proyecto==me.listaMiembros[e].id_proyecto){  
@@ -122,8 +124,8 @@ export default {
               })
            },
            CerrarModal() {
-                this.DialogoFase = false;    
-                this.DialogoFaseElemento = false;           
+                  
+                 this.DialogMiembro = false;    
            },
            onMainClick () {
             // console.log('Clicked on main button')
@@ -132,7 +134,16 @@ export default {
                  this.$router.push({name:"proyectodetalle",params:{id_proyecto}}); 
                  // this.$router.push({name:"fases",params:{item} }); 
             },
-
+            AbrirDialogo(id){
+              ///  alert(id)
+             this.DialogMiembro=true,
+             this.idproyecto=id;
+            //this.idproyecto=parseInt(this.idproyecto)
+            //proyectomiembros
+           },
+            Miembros(idproyecto){           
+             this.$router.push({name:"proyectomiembros",params:{idproyecto} });
+             },
           
 
         }

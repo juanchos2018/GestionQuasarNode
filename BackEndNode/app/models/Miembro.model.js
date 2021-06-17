@@ -16,10 +16,53 @@ var dataModels = {
             })
         }
     },
-   
-    
-    
-  
+    ListaMiembrosProyecto:(data, callback) => {
+        if(connection) {
+            let sql = `SELECT   mi.id,u.nombre,u.apellido,u.correo,r.nombre  as nombre_rol,mi.proyectoId,mi.usuario_miembroid FROM miembroproyecto  AS mi
+            INNER JOIN proyecto AS p
+            ON mi.proyectoId =p.id_proyecto
+            INNER JOIN usuario AS u
+            ON mi.usuario_miembroid=u.id_usuario
+            INNER JOIN rol AS r
+            ON mi.rolId =r.id_rol
+            WHERE p.id_proyecto= ${connection.escape(data)}`
+            connection.query(sql, (error, rows) => {
+                if(error) throw error
+                callback(rows)
+            })
+        }
+    },
+    AgregarMiembro : (data, callback) => {
+        if(connection) {
+            let sqle= `select *  from  miembroproyecto where usuario_miembroid=${connection.escape(data.usuario_miembroid)} and  ${connection.escape(data.proyectoId)}`           
+            connection.query(sqle, (error,result, rows) => {
+                if(error) throw error               
+                 var count =result.length;
+                  if(count==0){                     
+                  let sql = `INSERT INTO  miembroproyecto (usuario_miembroid,rolId,proyectoId) VALUES (${connection.escape(data.usuario_miembroid)}, ${connection.escape(data.rolId)},${connection.escape(data.proyectoId)})`
+                  connection.query(sql, (error,result, rows) => {
+                    if(error) throw error            
+                       callback({message : ' insertado miembro, :',estado:'NoExiste'})
+                 })
+               }else{
+                      callback({message : ' miembro Existe, :',estado:'Existe'})
+               }               
+            })   
+        }
+    },
+    ListaTareasMiembro:(data, callback) => {
+        if(connection) {
+            let sql = `SELECT  usu.nombre ,t.id_tarea,t.verionID, t.fecha_inicio,t.fecha_termino,t.descripcion,t.porcentajeavance,t.urlevidencia,t.estado ,t.estado1,t.estado2 ,t.respuesta FROM tarea_ecs AS t
+            inner JOIN  miembroproyecto AS mi 
+            ON t.miembroresponsableID =mi.id
+            INNER JOIN usuario AS  usu
+            on usu.id_usuario=mi.usuario_miembroid
+            WHERE t.miembroresponsableID = ${connection.escape(data)}`
+            connection.query(sql, (error, rows) => {
+                if(error) throw error
+                callback(rows)
+            })
+        }
+    },   
 }
-
 module.exports = dataModels

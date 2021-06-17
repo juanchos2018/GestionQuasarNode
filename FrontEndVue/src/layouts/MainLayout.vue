@@ -14,12 +14,11 @@
         <q-toolbar-title>
           Sistema Gestion de laConfiguracion
         </q-toolbar-title>
+       <q-btn unelevated rounded color="deep-orange" label="Salir"  @click="Salir" />
 
-        <div>Quasar v</div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
+  <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
       bordered
@@ -29,8 +28,15 @@
         <q-item-label   header  class="text-grey-8"  >
           Sistema
         </q-item-label>
-
-          <q-item clickable to="/metodologia">
+        <q-item clickable to="/">
+          <q-item-section avatar>
+            <q-icon name="school"> </q-icon>
+          </q-item-section>
+          <q-item-section>
+              <q-item-label> Inicio</q-item-label>
+          </q-item-section>              
+          </q-item>
+          <q-item clickable to="/metodologia"  v-if="esJefe">
           <q-item-section avatar>
             <q-icon name="school"> </q-icon>
           </q-item-section>
@@ -39,7 +45,7 @@
           </q-item-section>              
           </q-item>
 
-         <q-item clickable  to='/elemento'>
+         <q-item clickable  to='/elemento' v-if="esJefe">
           <q-item-section avatar>
             <q-icon name="school"> </q-icon>
           </q-item-section>
@@ -48,7 +54,7 @@
           </q-item-section>              
           </q-item>
 
-          <q-item clickable  to='/proyectolista'>
+          <q-item   clickable  to='/proyectolista' v-if="esJefe"> 
           <q-item-section avatar>
             <q-icon name="school"> </q-icon>
           </q-item-section>
@@ -57,6 +63,15 @@
           </q-item-section>              
           </q-item>
 
+          <q-item   clickable  to='/tareasmiembro' v-if="esMiembro"> 
+          <q-item-section avatar>
+            <q-icon name="school"> </q-icon>
+          </q-item-section>
+          <q-item-section>
+              <q-item-label> Tareas</q-item-label>
+          </q-item-section>              
+          </q-item>
+        
 
        </q-list>
     </q-drawer>
@@ -69,7 +84,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
-
+//import CustomDrawer from 'components/CustomDrawer'
 const linksData = [
   {
     title: 'Docs',
@@ -77,52 +92,37 @@ const linksData = [
     icon: 'school',
     link: 'https://quasar.dev'
   },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
+ 
 ];
 
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: { EssentialLink  },
   data () {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
-  }
+  },
+  methods: {
+    Salir(){
+      this.$session.destroy();
+      this.$router.push("/login")      
+      window.localStorage.setItem('authenticated', false);
+      window.localStorage.clear();
+       //    this.$router.push({name:"proyectomiembros",params:{idproyecto} });
+    }
+  },
+   computed: {   
+    esAdministrador(){
+      return this.$store.state.tipousuario =='Administrador';
+    },
+     esMiembro(){
+      return  this.$store.state.tipousuario =='Miembro';
+    },
+    esJefe(){
+      return  this.$store.state.tipousuario =='Jefe';
+    }
+  },
 }
 </script>

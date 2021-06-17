@@ -4,8 +4,8 @@ const dataModels = require('../models/PlantillaElemento.model')
 const connection = require('../../config/connection')
 
     function AgregarPlantillaElemento (req, res) {
-        const {faseId, elementoId} =  req.body   
-        dataModels.AgregarPlantillaElemento({faseId, elementoId}, (data, error) => {
+        const {faseId, elementoId,metodologiaId} =  req.body   
+        dataModels.AgregarPlantillaElemento({faseId, elementoId,metodologiaId}, (data, error) => {
             res.json(data)
         })
     }

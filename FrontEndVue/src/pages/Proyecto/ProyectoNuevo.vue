@@ -26,7 +26,13 @@
       <div class="row">
          <div class="col-6" style="padding: 0px 1% 0px">
                 <q-select outlined v-model="metodologiaId" :options="metodologias" label="Metologia"  :value="metodologiaId" @input="val => { handleChange(metodologiaId) }" />
-             </div>          
+            
+            
+             </div>   
+
+
+
+
       </div>    
  <div>
     <q-splitter
@@ -44,7 +50,9 @@
         </q-tabs>        
       </div> 
       </template>   
+
       <template v-slot:after>
+
        <q-tab-panels
           v-model="tab"
           animated
@@ -56,6 +64,7 @@
         <q-tab-panel name="mails">   
            <q-table
           title="Elementos Configuracion"  
+
            :data="fases[tabIndex].tabla"  
            :columns="fields"
           row-key="NombreElemento"
@@ -63,18 +72,19 @@
           selection="multiple"
           :selected.sync="selected"
         />
-        <div class="q-mt-md">
-          Selected: {{ JSON.stringify(selected) }}
-        </div>
+          <div class="q-mt-md">
+            Selected: {{ JSON.stringify(fases) }}
+          </div>
           </q-tab-panel>    
         </q-tab-panels> 
         </template>
+        
     </q-splitter>
 
   </div>
       <div>
-        <q-btn label="Submit" type="button" @click="RegistrarProyecto" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Rrgistrar" type="button" @click="RegistrarProyecto" color="primary"/>
+        <q-btn label="Cancelar" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>    
   </q-page>
@@ -82,7 +92,12 @@
 
 
 <script>
-import axios from  'axios';
+import Vue from "vue";
+import axios from "axios";
+import Swal from "sweetalert2";
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+Vue.use(VueSweetalert2);
 
 export default {
 //el usuaariio jefe tiene que llenarse cuando haga login
@@ -177,9 +192,17 @@ export default {
          // const obj={codigo,nombre,fechaini,fechater,descripcion,estado,metodologia,usuariojefeId,lista,ListaElementos,porcentaje};
           this.$axios.post('Proyecto/Agregar/',obj).then(response => {                       
                  console.log(response);
-                  this.Listacronogramafase=response.data;
+                 
                 //  this. Confirmacion();
-                this.AgregarCronogramaElemento();
+                  var estado=response.data.estado;                 
+                    if(estado=="Existe"){
+                        this.Existe(); 
+                    } else{
+                       this.Listacronogramafase=response.data.vector;
+
+                       this.AgregarCronogramaElemento();   
+                        this.Confirmacion();       
+                    }                    
                 }).catch(function (error) {
                       console.log(error);
                 }) .finally(() => {                     
@@ -208,6 +231,7 @@ export default {
                  // this.Limpiar();
                 }).catch(function (error) {
                       console.log(error);
+                      this.Limpiar();
                 }) .finally(() => {                     
              });
           },
@@ -216,8 +240,9 @@ export default {
                   var tipoDcumento=[];
                    this.$axios.get('metodologia/Listar/').then(response => {   
                     tipoDcumento=response.data; 
+                    console.log(response.data)
                     tipoDcumento.map(function(x){
-                         me.metodologias.push({label: x.nombre,value:x.id_metodologia});
+                         me.metodologias.push({label: x.nombre,value:x.metodologiaId});
                    });  
                   
               }).catch(function(error){
@@ -236,13 +261,16 @@ export default {
           },       
           MostarFaseMetodolgia(metodologiaId){
                 let me=this;
-               // me.Limpiar();
-                this.$axios.get('metodologia/Fases/'+metodologiaId).then(response => {              
-                    me.fases = response.data;
-                    me.listaFases=[];                 
-                    response.data.forEach(item=>{
-                        me.listaFases.push({nombre: item.nombre_fase,id_fase:item.id_fase});   
-                      });               
+               me.Limpiar();
+                this.$axios.get('metodologia/Fases/'+metodologiaId).then(response => {             
+                  
+                    console.log(response.data)
+                    if ( response.data.length>0) {
+                        me.fases = response.data;
+                        me.listaFases=[];                 
+                        response.data.forEach(item=>{
+                            me.listaFases.push({nombre: item.nombre_fase,id_fase:item.id_fase});   
+                          });               
                       for(var i=0;i< me.fases.length ;i++){                       
                           for  (var e=0;e< me.TodasPlantillas.length ;e++){
                           // console.log(me.TodasPlantillas[e].id_fase);
@@ -252,6 +280,15 @@ export default {
                               } 
                           }                    
                         }  
+                    }else{
+                      //   alert("llega vacio")
+                          me.listaFases=[];
+                        //  me.fases=[];
+                          me.fases[0].tabla=[]
+                          me.fases[0]=[]
+                   
+                    }
+                  
                       }).catch(function (error) {
                           console.log("ERrro");
                           console.log(error);
@@ -267,7 +304,8 @@ export default {
           },
           ListarElemtosFase(id_fase){
               let me=this;
-              axios.get('ApiWeb/PlantillaElemento.php/?faseId='+id_fase).then(response => {                 
+              axios.get('ApiWeb/PlantillaElemento.php/?faseId='+id_fase).then(response => {     
+                  console.log(response.data)            
                     me.plantillaelemento = response.data;     
                              
                   }).catch(function (error) {
@@ -313,11 +351,21 @@ export default {
                this.idseleccionados.splice(this.idseleccionados.indexOf(id), 1);
                this.idseleccionadosfases.splice(this.idseleccionadosfases.indexOf(id_fase),1);              
             },
+             Existe(){
+                Swal.fire({
+                    title: '<strong>Alerta </strong>',
+                    icon: 'info',
+                    html:
+                    'Nombre de proyecto usado ' ,                
+                })
+            }, 
             Limpiar(){
               this.seleccionados=[];
               this.idseleccionados=[];
               this.idseleccionadosfases=[];
               this.listaenviar=[];
+              this.listaFases=[]
+              this.selected=[];
             }
     }
 }
