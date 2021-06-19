@@ -23,8 +23,17 @@ function ListaProyectoJefe(req, res) {
         res.json(data)
     })
 }
+
+function RegistrarUsuario (req, res) {
+    const {nombre,apellido,correo,password,tiposusuarioId} =  req.body   
+    dataModels.RegistrarUsuario({nombre,apellido,correo,password,tiposusuarioId}, (data, error) => {
+        res.json(data)
+    })
+}
+
 module.exports = {
     Listar, 
     ListaProyectoMiembro,
-    ListaProyectoJefe
+    ListaProyectoJefe,
+    RegistrarUsuario
 }

@@ -34,5 +34,6 @@ app.use(require('./routes/Tarea.route'))
 app.use(require('./routes/Commit.route'))
 app.use(require('./routes/Historial.route'))
 app.use(require('./routes/CronogramaFase.route'))
-
+app.use(require('./routes/TipoUsuario.route'))
+app.use(require('./routes/Solicitud.route'))
 module.exports = app

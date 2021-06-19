@@ -1,7 +1,11 @@
 <template>
       <q-page class="q-pa-md">
         <h5>Usuarios </h5>       
-         
+          <q-btn color="primary" style="width: 150px" @click="DialogUsuario=true">
+          <div class="ellipsis">
+            Nuevo Usuario
+          </div>
+    </q-btn>
      <br><br>
          <div class=" row"  >
            <div class=" q-pa-md col-4" v-for="item in items" :key="item.key"  >   
@@ -34,6 +38,10 @@
      </q-card>
         </div>
      </div>   
+
+        <usuario-nuevo @CerrarModal="CerrarModal" :DialogUsuario="DialogUsuario" v-on:Listar-Emit-Usuario="ListaUsuarios" ></usuario-nuevo>
+    
+
   </q-page>
 </template>
 
@@ -47,8 +55,11 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 Vue.use(VueSweetalert2);
 
+
+import UsuarioNuevo from './UsuarioNuevo';
+
 export default {
- components: {   },
+ components: {   UsuarioNuevo},
 
  data(){
      return{

@@ -6,8 +6,7 @@
      <div class="row" >
             <div class="col-6" style="padding: 0px 1% 0px">
       <q-input       
-        label="Mombre Proyecto *"
-           
+        label="Mombre Proyecto *"           
         v-model="nombre_proyecto"
       />
          </div>

@@ -70,6 +70,8 @@
               <q-item-label> Usuarios</q-item-label>
           </q-item-section>              
           </q-item>
+
+
           <q-item   clickable  to='/tareasmiembro' v-if="esMiembro"> 
           <q-item-section avatar>
             <q-icon name="school"> </q-icon>
@@ -78,7 +80,27 @@
               <q-item-label> Tareas</q-item-label>
           </q-item-section>              
           </q-item>
+
+          <q-item   clickable  to='/solicitud' v-if="esMiembro" > 
+          <q-item-section avatar>
+            <q-icon name="school"> </q-icon>
+          </q-item-section>
+          <q-item-section>
+              <q-item-label> solicitud</q-item-label>
+          </q-item-section>              
+          </q-item>
         
+
+         <q-item   clickable  to='/solicitudlista' v-if="esJefe"> 
+          <q-item-section avatar>
+            <q-icon name="school"> </q-icon>
+          </q-item-section>
+          <q-item-section>
+              <q-item-label> solicitud lista</q-item-label>
+          </q-item-section>              
+          </q-item>
+        
+
 
        </q-list>
     </q-drawer>

@@ -28,10 +28,29 @@ function ListaTareasMiembro(req,res){
         res.json(data)       
     })
 }
+//ObtenerJefeProyecto
+
+function ObtenerJefeProyecto (req, res) {
+    const {usuario_miembroid, proyectoId} =  req.body   
+    dataModels.ObtenerJefeProyecto({usuario_miembroid, proyectoId}, (data, error) => {
+        res.json(data)
+    })
+    
+}
+
+function ObtenerJefeProyecto2 (req, res) {
+    const { proyectoId} =  req.body   
+    dataModels.ObtenerJefeProyecto2({ proyectoId}, (data, error) => {
+        res.json(data)
+    })
+    
+}
 
 module.exports = {
     Listar, 
     ListaMiembrosProyecto,
     AgregarMiembro,
-    ListaTareasMiembro
+    ListaTareasMiembro,
+    ObtenerJefeProyecto,
+    ObtenerJefeProyecto2
 }

@@ -72,6 +72,9 @@ const routes = [
       { name: "tareasmiembro",path: 'tareasmiembro', component: () => import('pages/Tarea/TareaMiembro.vue') },
       { name: "tareasdetallemiembro",path: 'tareasdetallemiembro/:id', component: () => import('pages/Tarea/TareaDetalleMiembro.vue') },
       { name: "usuarios",path: 'usuarios', component: () => import('pages/Usuarios/Usuarios.vue') },
+      { name: "solicitud",path: 'solicitud', component: () => import('pages/Solicitud/SolicitudNueva.vue') },
+
+      { name: "solicitudlista",path: 'solicitudlista', component: () => import('pages/Solicitud/SolicitudLista.vue') },
 
     ]
   },   

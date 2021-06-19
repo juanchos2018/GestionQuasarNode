@@ -30,14 +30,11 @@ var dataModels = {
            }
        }, 
        
-       ListaProyectoJefe: (data, callback) => {  
-           
-        var series=[];
-       
+       ListaProyectoJefe: (data, callback) => {             
+        var series=[];       
         var listaMiembro=[];
         var contador=0;
-        var datos= [];       
-    
+        var datos= [];    
 
         if(data==null || data=="")  {
             console.log("llega vacio we")
@@ -68,6 +65,29 @@ var dataModels = {
             })
         }
     }, 
+
+    RegistrarUsuario : (data, callback) => {
+        if(connection) {
+
+            let sqle= `select *  from  usuario where correo=${connection.escape(data.correo)}  `  
+            connection.query(sqle, (error,result, rows) => {
+                if(error) throw error
+                var count =result.length;
+                if(count==0){   
+                    let sql = `insert into usuario(nombre, apellido,correo,password,tiposusuarioId) values (${connection.escape(data.nombre)}, ${connection.escape(data.apellido)},${connection.escape(data.correo)},
+                    ${connection.escape(data.password)},${connection.escape(data.tiposusuarioId)})`
+                        connection.query(sql, (error, rows) => {
+                            if(error) throw error
+                            callback({message : 'Exito, :',estado:'NoExiste'})
+                        })
+                }else{
+                    callback({message : 'Alerta, :',estado:'Existe'})
+                }               
+            })         
+        }
+    },
+
+
 
 }
 

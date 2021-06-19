@@ -19,7 +19,8 @@ module.exports = function (/* ctx */) {
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
       'axios',
-      'apex'
+      'apex',
+      'firebase'
 
     ],
 
