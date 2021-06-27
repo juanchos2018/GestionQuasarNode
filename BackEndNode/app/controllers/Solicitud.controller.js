@@ -18,6 +18,7 @@ async function ListarSolicitud(req, res) {
 
 
 module.exports = {  
+    ListarSolicitud,
     AgregarSolicitud,
-    ListarSolicitud
+    
 }

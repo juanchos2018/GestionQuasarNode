@@ -11,9 +11,7 @@
           <q-linear-progress
             :value="parseFloat(TotalProcentajeProyecto) / 100"
             class="q-mt-md"
-          />
-
-           
+          />           
           <br />
           <p>
             {{descripcion}}
@@ -43,7 +41,7 @@
             <div style="display: flex;">
               <font-awesome-icon :icon="myIcon" size="5x" />
               <div class="text-h6 " style="margin-left:5%">Nuevo</div>
-              <div class="text-h6 " style="margin-left:5%">0</div>
+              <div class="text-h6 " style="margin-left:5%">{{TareaNuevas}}</div>
             </div>
           </q-card-section>
         </q-card>
@@ -58,7 +56,7 @@
             <div style="display: flex;">
               <font-awesome-icon :icon="myIcon" size="5x" />
               <div class="text-h6 " style="margin-left:5%">Proceso</div>
-              <div class="text-h6 " style="margin-left:5%">0</div>
+              <div class="text-h6 " style="margin-left:5%">{{TareaProceso}}</div>
             </div>
           </q-card-section>
         </q-card>
@@ -73,7 +71,7 @@
             <div style="display: flex;">
               <font-awesome-icon :icon="myIcon" size="5x" />
               <div class="text-h6 " style="margin-left:5%">Terminado</div>
-              <div class="text-h6 " style="margin-left:5%">0</div>
+              <div class="text-h6 " style="margin-left:5%">{{TareaTerminada}}</div>
             </div>
           </q-card-section>
         </q-card>
@@ -105,8 +103,9 @@
               :max="100"
               :label-value="+ item.porcentaje_avance + ' %'"
               :step="1"
-              disable
-                color="light-green"
+              readonly
+              
+              color="light-green"
             />
           </q-card-section>
           <q-separator />
@@ -175,6 +174,7 @@ export default {
          this.id_proyecto=item 
           this.MostarFaseMetodolgiaProyecto(item);
           this.DatosProyecto(item);
+          this.ProyectoTotalTareas(item);
     
       }
     },
@@ -214,7 +214,35 @@ export default {
     DetalleFase(id,nombrefa,idcronogramafase){
         var data =id+"-"+this.id_proyecto+'-'+nombrefa+'-'+this.nombreProyecto+'-'+idcronogramafase
         this.$router.push({name:"fasedetalle",params:{data} });
-    }
+    },
+     ProyectoTotalTareas(id){
+          let me=this;
+           this.$axios.get('Proyecto/TotalTareasProyecto/'+id).then(response => {   
+             console.log(response.data); 
+              if(response.data.length==0){
+                   me.TareaNuevas="0";
+                   me.TareaProceso="0";
+                   me.TareaTerminada="0";
+              } else{
+               me.TareaNuevas=response.data[0].cantidad;  
+                if(response.data.length>1){
+                  me.TareaProceso=response.data[1].cantidad;
+                 }
+                 else{ 
+                     me.TareaProceso="0";
+                 }
+                 if(response.data.length>2){
+                  me.TareaTerminada=response.data[2].cantidad;   
+                 }else{
+                     me.TareaTerminada="0";
+                 } 
+              }                  
+           
+               }).catch(function (error) {
+                      console.log(error);
+              }) .finally(() => {
+           })
+       },  
   }
 };
 </script>

@@ -32,11 +32,30 @@ var dataModels = {
         if(connection) {
             let sql = `update tarea_ecs  set porcentajeavance = ${connection.escape(data.porcentajeavance)}, urlevidencia = ${connection.escape(data.urlevidencia)} ,
             estado = ${connection.escape(data.estado)},  estado1 = ${connection.escape(data.estado1)} where id_tarea = ${connection.escape(data.id_tarea)}`
-
             connection.query(sql, (error, rows) => {
                 if(error) throw error
                 callback({message: 'tarea actualizado'})
             })
+        }
+    },
+    AprobarRechazarTarea:(data,callback)=>{
+        if(connection) {
+            if (data.estado2=="Aprobado") {
+                let sql = `update tarea_ecs  set estado = ${connection.escape(data.estado)}, estado1 = ${connection.escape(data.estado1)} ,
+                estado2 = ${connection.escape(data.estado2)},  respuesta = ${connection.escape(data.respuesta)} where id_tarea = ${connection.escape(data.id_tarea)}`
+                connection.query(sql, (error, rows) => {
+                    if(error) throw error
+                    callback({message: 'tarea actualizado'})
+                })
+            }else{
+                let sql = `update tarea_ecs  set estado = ${connection.escape(data.estado)} ,
+                estado2 = ${connection.escape(data.estado2)},  respuesta = ${connection.escape(data.respuesta)} where id_tarea = ${connection.escape(data.id_tarea)}`
+                connection.query(sql, (error, rows) => {
+                    if(error) throw error
+                    callback({message: 'tarea actualizado'})
+                })
+            }
+           
         }
     },
     ObtenerTarea : (data,callback) => {
@@ -74,6 +93,16 @@ var dataModels = {
             })
         }
     }, 
+    VerMensaje: (data,callback) => {
+        if(connection) {
+            let sql = `SELECT  t.id_tarea,t.estado ,t.estado1,t.estado2,t.respuesta from  tarea_ecs AS t
+            WHERE t.id_tarea =${connection.escape(data)}`
+             connection.query(sql, (error, rows) => {
+                if(error) throw error
+                callback(rows[0])
+            })
+        }
+    }
 }
 
 module.exports = dataModels

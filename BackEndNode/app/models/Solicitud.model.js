@@ -31,8 +31,7 @@ var dataModels = {
                 callback(rows)
             })
         }
-    }, 
-      
+    },     
       
 }
 

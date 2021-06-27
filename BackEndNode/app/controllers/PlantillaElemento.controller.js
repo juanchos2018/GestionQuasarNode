@@ -25,9 +25,9 @@ const connection = require('../../config/connection')
         })
     }
 module.exports = {
-    ListaElementosFase,
+    ListaElementosFase,   
+    ListarPlantillaElemento,
     AgregarPlantillaElemento,
-    ListarPlantillaElemento
     
  
 }

@@ -38,18 +38,29 @@ function ListaElementosFaseProyecto(req, res){
 }
  
 function UpdatatePorcentaje(req, res) {
-    const { id } = req.params
+    const { id } = req.params    
     const { porcentaje} = req.body
     dataModels.UpdatatePorcentaje({id, porcentaje}, (data, error) => {
         res.json(data)
     })
 }
 
+
+function TotalTareasProyecto(req, res) {  
+     const { id } = req.params
+     dataModels.TotalTareasProyecto(id, (data, error) => {
+         res.json(data)
+     })
+ }
+
+
 module.exports = {
     Listar, 
-    AgregarProyecto,
-    ListarFasesProyecto,
     ProyectoDetail,
+    AgregarProyecto,
+    UpdatatePorcentaje,
+    TotalTareasProyecto,   
+    ListarFasesProyecto,   
     ListaElementosFaseProyecto,
-    UpdatatePorcentaje
+   
 }

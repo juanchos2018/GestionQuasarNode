@@ -43,11 +43,11 @@ export default {
         },
         data () {
             return {            
-                 contador:0,
-                CodeMetodologia:'M',
+                contador:0,               
                 codigo:'',
                 nombre:'',            
-                isLoading:false,          
+                isLoading:false,   
+                CodeMetodologia:'M',       
                 Show:this.DialogoElemento,
             }
         },

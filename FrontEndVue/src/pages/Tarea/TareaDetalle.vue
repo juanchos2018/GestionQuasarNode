@@ -27,10 +27,9 @@
           <br>
          <div class="row">
             <div class="col-4">
-                <label for="" style="color: #1A86D0;  font-weight:bold;">Estado</label> <br>
-              
+                <label for="" style="color: #1A86D0;  font-weight:bold;">Estado</label> <br>              
                 <q-chip square color="orange" text-color="white" >
-                {{estado}}
+                {{estado1}}
             </q-chip>   
             </div>
             <div class="col-4">
@@ -55,7 +54,9 @@
         <hr>
       <p> {{comnentario}} </p>
       <br>
-          <a :href="urlevidencia"  target="_blank">Link</a>
+          <a :href="urlevidencia"  target="_blank">Link Evidencia</a>
+          <q-btn  v-if="estado1=='Terminado'" color="primary" style="float:right" label="Responder"  @click="MostrarMensaje"/>
+          <br><br>
       </q-card-section>
     </q-card>
     </div>
@@ -156,7 +157,7 @@ export default {
       if (this.estado2 == "Aprobado") {
         this.MensajeTareaAprobada();
       } else {
-        this.Responder();
+          this.Responder();
       }
     },
     Responder() {
@@ -224,21 +225,23 @@ export default {
       let estado1 = esta1;
       let estado2 = esta2;
       let respuesta = "Aprobado";
-      const obj = { id_tarea, estado, estado1, estado2, respuesta };
-      axios
-        .put("ApiWeb/Historial.php/", obj)
-        .then(response => {
-          console.log(response.data);
-          this.$swal.fire(
-            "Aprobado!",
-            "Your file has been deleted.",
-            "success"
-          );
-        })
-        .catch(function(error) {
-          console.log(error);
-        })
-        .finally(() => {});
+      const obj = {  estado, estado1, estado2, respuesta };
+      console.log(obj);
+      this.$axios
+          .put("Tarea/AprobarRechazarTarea/"+id_tarea, obj)
+          .then(response => {
+            console.log(response.data);
+            this.$swal.fire(
+              "Aprobado!",
+              "Se ha Aprobado esta tarea !.",
+              "success"
+            );
+          })
+          .catch(function(error) {
+            console.log(error);
+          })
+          .finally(() => {});
+   
     },
     RecharzarTarea() {
       let me = this;

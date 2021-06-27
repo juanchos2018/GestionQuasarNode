@@ -3,18 +3,18 @@
 
        <div class="row"  >
             <div class="q-pa-md col-6" v-for="item in proyectos" :key="item.key">
-            <q-card class="my-card">
+            <q-card class="my-card cardstyle">
       <q-card-section>
             <div class="text-h6">{{item.nombre_proyecto}}            
             </div>
-      </q-card-section>     
+      </q-card-section>   
             
       <q-card-section>                
                 <div ><q-chip square color="orange" text-color="white" >
                 {{item.estado}}
                    </q-chip>   
             </div>
-               <label>{{item.nombre}}</label>  <br> <br>
+              Rol :  <label>{{item.nombre}}</label>  <br> <br>
                <div  style=" display: flex;" >
 
                </div>  
@@ -25,6 +25,7 @@
                         
               <br>
          </q-card-section>
+         <br>
       </q-card>
      </div>
     </div>    
@@ -80,3 +81,8 @@ export default {
     }
 }
 </script>
+<style>
+.cardstyle{
+  border: 1px solid #1A86D0;
+}
+</style>

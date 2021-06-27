@@ -23,12 +23,28 @@ function editar(req, res) {
     })
 }
 
+function AprobarRechazarTarea(req, res) {
+    const { id_tarea } = req.params
+    const {  estado, estado1, estado2, respuesta} = req.body
+    dataModels.AprobarRechazarTarea({id_tarea, estado, estado1, estado2, respuesta}, (data, error) => {
+        res.json(data)
+    })
+}
+
 function ObtenerTarea (req, res) {
     const {id} =   req.params  
     dataModels.ObtenerTarea(id, (data, error) => {
         res.json(data)
     })
 }
+
+function VerMensaje (req, res) {
+    const {id_tarea} =   req.params  
+    dataModels.VerMensaje(id_tarea, (data, error) => {
+        res.json(data)
+    })
+}
+
 
 function ListaTotalTarea (req, res) {
     dataModels.ListaTotalTarea((data, error) => {
@@ -37,9 +53,11 @@ function ListaTotalTarea (req, res) {
 }
 
 module.exports = {
-    Listar, 
+    Listar,    
+    editar,   
+    VerMensaje,
     AgregarTarea,
-    editar,
     ObtenerTarea,
-    ListaTotalTarea
+    ListaTotalTarea,
+    AprobarRechazarTarea
 }

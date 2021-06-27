@@ -4,7 +4,7 @@
       <q-card-section>
         <div>         
           <label for=" " style="font-size: 18px;margin-right:5px">{{nombre_fase}}</label>
-          <q-linear-progress :value="progress" class="q-mt-md" />
+       <!--   <q-linear-progress :value="progress" class="q-mt-md" />   -->
         <q-slider
           name="speed"
           v-model="porcentajeavance"
@@ -365,10 +365,12 @@ export default {
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
-              confirmButtonText: 'Yes, delete it!'
+              confirmButtonText: 'Yes, Editar Porcentaje!'
             }).then((result) => {
               if (result.isConfirmed) {
                   this.EditarPorcentajeFase();
+              }else{
+                this.porcentajeavance=value;
               }
             })  
 
@@ -443,9 +445,8 @@ export default {
             let id_cronograma_fase=this.idcronogramafase;  
             let porcentaje=this.porcentajeavance;  
             var  porcentajeVerdadero=this.porcentajeavance- this.rangoAnterior;
-
              var porcentajeProyeto =(porcentajeVerdadero*this.porcentaje)/100;
-            console.log(porcentajeVerdadero);
+            console.log("procetnej proyecto"+porcentajeProyeto);
             const obj={porcentaje};
             this.$axios.put('CronogramaFase/UpdatateCronogramaFase/'+id_cronograma_fase,obj).then(response => {     
                    
@@ -461,6 +462,7 @@ export default {
             let id=this.idproyecto;  
             let porcentaje=porcentajeProyeto;  
             const obj={porcentaje};
+            
             this.$axios.put('Proyecto/UpdatatePorcentaje/'+id,obj).then(response => {     
                       console.log(response.data)                           
                       this.ObtenerCronogramaFase( this.idcronogramafase)            

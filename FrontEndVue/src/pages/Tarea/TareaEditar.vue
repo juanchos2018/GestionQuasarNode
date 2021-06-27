@@ -12,33 +12,44 @@
         </q-card-section>
 
           <q-card-section style="max-height: 50vh" class="scroll">
-          <div class="q-mt-xl">
-                <q-slider
-                name="speed"
-                v-model="rango"
-                label-always
-                :min="0"
-                :max="100"
-                :step="1"
-                />
-            </div>                            
-        </q-card-section>
-
+              <div v-if="estadotarea2=='Observado'">
+                   <div class="q-mt-xl">
+                    <q-slider
+                    name="speed"
+                    v-model="rango"
+                    label-always
+                    :min="0"
+                    :max="100"
+                    :step="1"
+                      readonly
+                    />
+                </div>   
+              </div>
+              <div v-else>              
+                   <div class="q-mt-xl">
+                    <q-slider
+                    name="speed"
+                    v-model="rango"
+                    label-always
+                    :min="0"
+                    :max="100"
+                    :step="1"                  
+                    />
+                </div>   
+              </div>                                      
+            </q-card-section>
         <q-card-section style="max-height: 50vh" class="scroll">
           <q-input outlined     v-model="urlevidencia" label="url evidencia" />
         </q-card-section>
-
         <q-card-section style="max-height: 50vh" class="scroll">
                     <q-input
             v-model="descripcion_avance"          
             filled
             type="textarea"
             />
-        </q-card-section>
-    
+        </q-card-section>    
         <q-card-actions align="right">
-          <q-btn flat label="Cerrar" color="primary" v-close-popup />
-        
+          <q-btn flat label="Cerrar" color="primary" v-close-popup />        
           <q-btn color="primary" label="Registrar"   @click="RegistrarAvance"/>
         </q-card-actions>
       </q-card>
@@ -65,7 +76,7 @@ export default {
         type: Boolean,
         required: true,
         default: false
-      },id_tarea: [String, String],descripcion: [String, String] ,porcentaje:{type:Number},id_responsable:[String, String],estadotarea:[String,String] 
+      },id_tarea: [String, String],descripcion: [String, String] ,porcentaje:{type:Number},id_responsable:[String, String],estadotarea:[String,String],estadotarea2:[String,String]  
       
     },
     data() {

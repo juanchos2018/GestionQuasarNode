@@ -12,11 +12,8 @@ var dataModels = {
                 callback(rows)
             })
         }
-    },
-   
-    
-    
-  
+    },  
+      
 }
 
 module.exports = dataModels

@@ -8,8 +8,7 @@ function AgregarCronogramaElemento (req, res) {
     listacronogramaelemento.forEach(item => {
         console.log(item.nombre+" "+item.id_cronograma_fase);
         var obje={id_elemento:item.id,nombre_elemento:item.nombre,coronogramaId:item.id_fase,id_cronograma_fase:item.id_cronograma_fase};
-        dataModels.AgregarCronogramaElemento(obje, (data, error) => {
-                   
+        dataModels.AgregarCronogramaElemento(obje, (data, error) => {                   
            // res.json(data)
         })
     });  

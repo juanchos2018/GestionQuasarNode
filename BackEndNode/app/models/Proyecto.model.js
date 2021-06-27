@@ -134,15 +134,14 @@ var dataModels = {
                m.nombre,p.porcentaje  FROM proyecto AS p
                INNER JOIN metodologia AS m
                ON p.metodologiaId=m.id_metodologia
-               WHERE p.id_proyecto= ${connection.escape(data)}`
-   
+               WHERE p.id_proyecto= ${connection.escape(data)}`   
                connection.query(sql, (error, rows) => {
                    if(error) throw error
                    callback(rows[0])
                })
            }
-       },
-       ListaElementosFaseProyecto: (data, callback) => {
+    },
+    ListaElementosFaseProyecto: (data, callback) => {
         //   console.log("el id : ", data)
            if(connection) {
                let sql = `SELECT p.id_proyecto , p.nombre_proyecto,cf.nombre, cf.id_cronograma_fase,cf.id_fase,ce.id_cronograma_elemento,ce.nombre_elemento,ce.id_elemento 
@@ -160,17 +159,55 @@ var dataModels = {
                    callback(rows)
                })
            }
-       },
-       UpdatatePorcentaje : (data,callback) => {
+    },
+    ObtenerPorcentajeProyecto:(data,callback)=>{
         if(connection) {
-            let sql = `UPDATE proyecto SET porcentaje= ${connection.escape(data.porcentaje)}  WHERE id_proyecto= ${connection.escape(data.id)}`
+            let sql = `SELECT  pro.porcentaje FROM proyecto AS pro
+            WHERE pro.id_proyecto= ${connection.escape(data)}`   
             connection.query(sql, (error, rows) => {
                 if(error) throw error
-                callback({message: ' actualizado'})
+                callback(rows[0])
             })
         }
-    }, 
-    
+    },
+     UpdatatePorcentaje : (data,callback) => {            
+        let sql = `SELECT  pro.porcentaje FROM proyecto AS pro
+        WHERE pro.id_proyecto= ${connection.escape(data.id)}`   
+        connection.query(sql, (error, rows) => {
+            if(error) throw error           
+            //console.log(rows[0])
+            var porcetajeproyecto =rows[0].porcentaje
+            console.log(porcetajeproyecto)
+            var real =porcetajeproyecto+data.porcentaje;
+            let sql = `UPDATE proyecto SET porcentaje= ${connection.escape(real)}  WHERE id_proyecto= ${connection.escape(data.id)}`
+            connection.query(sql, (error, rows) => {
+                if(error) throw error
+                callback({message: ' actualizado porctaje proyecto'})
+            })
+        })    
+    },   
+    TotalTareasProyecto:(data,callback)=>{
+        if(connection) {
+            let sql = `SELECT pro.id_proyecto, pro.nombre_proyecto,  ta.estado ,COUNT(ta.estado) AS cantidad FROM tarea_ecs AS ta
+            INNER JOIN version AS ve
+            ON ta.verionID =ve.id_version
+            INNER JOIN cronograma_elemento AS cro
+            ON ve.elemntoconfiguracionID=cro.id_cronograma_elemento
+            INNER JOIN cronogramafase AS cro1
+            ON cro.id_cronograma_fase =cro1.id_cronograma_fase
+            INNER JOIN cronograma AS cro2 
+            ON cro1.coronogramaId=cro2.id_cronograma          
+            INNER JOIN proyecto AS pro
+            on cro2.id_proyecto=pro.id_proyecto
+            WHERE pro.id_proyecto= ${connection.escape(data)}
+            GROUP BY pro.id_proyecto ,ta.estado
+            ORDER BY ta.estado`   
+            connection.query(sql, (error, rows) => {
+                if(error) throw error
+                callback(rows)
+            })
+        }
+    },  
   
 }
 

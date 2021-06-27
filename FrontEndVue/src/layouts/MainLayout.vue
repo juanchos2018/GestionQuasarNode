@@ -26,7 +26,11 @@
     >
       <q-list>
         <q-item-label   header  class="text-grey-8"  >
-          Sistema
+          <center>
+            <label for="">{{tipo_usuario}}</label>
+ 
+          </center>
+         
         </q-item-label>
         <q-item clickable to="/">
           <q-item-section avatar>
@@ -130,8 +134,12 @@ export default {
   data () {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
+      tipo_usuario:'',
     }
+  },
+  mounted() {
+     if (localStorage.tipousuario) this.tipo_usuario = localStorage.tipousuario;
   },
   methods: {
     Salir(){

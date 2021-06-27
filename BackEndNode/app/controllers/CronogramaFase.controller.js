@@ -9,8 +9,6 @@ function ObtenerCronogramaFase (req, res) {
         res.json(data)
     })
 }
-
-
 function UpdatateCronogramaFase(req, res) {
     const { id } = req.params
     const { porcentaje} = req.body

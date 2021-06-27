@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      title="Solioctud"
+      title="Solicitud de Cambio"
       :data="data"
       :columns="columns"
       row-key="name"

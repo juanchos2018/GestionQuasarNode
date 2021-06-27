@@ -48,9 +48,9 @@ function ObtenerJefeProyecto2 (req, res) {
 
 module.exports = {
     Listar, 
-    ListaMiembrosProyecto,
-    AgregarMiembro,
+    AgregarMiembro, 
     ListaTareasMiembro,
     ObtenerJefeProyecto,
-    ObtenerJefeProyecto2
+    ObtenerJefeProyecto2,
+    ListaMiembrosProyecto,
 }

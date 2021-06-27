@@ -56,9 +56,10 @@ export default {
     return {
       items: [],
       elementos: [],
+       id_elemento: "",
       DialogoElemento: false,
       DialogoModificar: false,
-      id_elemento: ""
+     
     };
   },
   mounted() {

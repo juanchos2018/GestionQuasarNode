@@ -33,7 +33,8 @@ function RegistrarUsuario (req, res) {
 
 module.exports = {
     Listar, 
-    ListaProyectoMiembro,
+    RegistrarUsuario,   
     ListaProyectoJefe,
-    RegistrarUsuario
+    ListaProyectoMiembro,
+   
 }

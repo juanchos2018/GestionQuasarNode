@@ -9,7 +9,7 @@
 
      <div class="row"  >
             <div class="q-pa-md col-6" v-for="item in items" :key="item.key">
-            <q-card class="my-card">
+            <q-card class="my-card cardstyle">
             <q-card-section>
             <div class="text-h6">{{item.nombre_proyecto}} 
             <div class="float-right">

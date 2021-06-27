@@ -32,8 +32,8 @@ function AgregarMetodologia (req, res) {
 
 module.exports = {
     Listar,
-    FasesMetodologia,
     ListarTodas,
+    FasesMetodologia,    
     AgregarMetodologia
 
 }

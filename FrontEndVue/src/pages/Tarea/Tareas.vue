@@ -52,7 +52,7 @@
           <q-tab-panel name="Tareas">
             <div class="text-h6">Tareas</div>
 
-                <div class=" row">
+              <div class=" row">
                 <div class=" q-pa-md col-4" v-for="item in tareasversion" :key="item.key">
                     <q-card class="my-card" flat bordered>
                     <q-card-section horizontal>
@@ -108,11 +108,68 @@
                     </q-card-actions>
                     </q-card>
                 </div>
-                </div>
-            </q-tab-panel>
+            </div>
+          </q-tab-panel>
+
           <q-tab-panel name="alarms">
             <div class="text-h6">Terminadas</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <div class=" row">
+                <div class=" q-pa-md col-4" v-for="item in tareasterminadas" :key="item.key">
+                    <q-card class="my-card" flat bordered>
+                    <q-card-section horizontal>
+                        <q-card-section class="q-pt-xs">
+                     
+                        <div class="text-h6 q-mt-sm q-mb-xs">{{ item.descripcion }}    <q-badge outline color="primary" :label="item.estado1" style="margin-left:10px" /> </div>
+                       
+                       <!-- <div class="text-caption text-grey">
+                                                 
+                        </div> -->
+                        </q-card-section>  
+                     <!--   <q-card-section class="col-5 flex flex-center">
+                        <q-img
+                            class="rounded-borders"
+                            src="https://cdn.quasar.dev/img/parallax2.jpg"
+                        />
+                        </q-card-section>  -->
+                    </q-card-section>
+                      <q-card-section>
+                            <q-slider
+                            name="speed"
+                            v-model="item.porcentajeavance"
+                            label-always
+                            :min="0"
+                            :max="100"
+                            :step="1"
+                            :label-value="+ item.porcentajeavance + ' %'"
+                            disabled
+                          />
+                     <!--   <q-linear-progress :value="progress" class="q-mt-md" /> -->
+
+
+                        <label for="">Res.: {{item.nombre}}</label>   
+                          <div class="row">
+                          <div class="col-6">
+                              <label for="" style="color: #1A86D0;  font-weight:bold;">Fecha Inicio</label> <br>
+                              <label for="">{{item.fecha_inicio}}</label>
+
+                          </div>
+                          <div class="col-6">
+                                <label for="" style="color: #1A86D0;  font-weight:bold;">Fecha Termino</label> <br>
+                                 <label for="">{{item.fecha_termino}}</label>
+                          </div>         
+                      
+                          </div>                   
+                        </q-card-section>
+                    <q-separator />
+                    <q-card-actions>
+                        <q-btn flat round icon="event" />
+                        <q-btn flat @click="DetalleTarea(item.id_tarea)">
+                        Ver
+                        </q-btn>                        
+                    </q-card-actions>
+                    </q-card>
+                </div>
+            </div>
           </q-tab-panel>         
         </q-tab-panels>
       </q-card>
