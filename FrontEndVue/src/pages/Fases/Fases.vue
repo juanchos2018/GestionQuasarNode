@@ -125,7 +125,7 @@ export default {
       let me = this;
       me.elementos = [];
       this.$axios
-        .get("PlantillaElemento/" + faseId)
+        .get("PlantillaElemento/Elementos/" + faseId)
         .then(response => {
           console.log(response.data);
           me.elementos = response.data;

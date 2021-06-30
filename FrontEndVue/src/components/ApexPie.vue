@@ -3,12 +3,16 @@
 
   <div class="row">
     <div  class="col-5" v-for="item in agrupados" :key="item.key">        
-         <q-chip dense color="orange" text-color="white" icon-right="star">
+         <q-chip   dense color="orange" text-color="white" icon-right="star">
+           
           {{item.nombre_proyecto}}
       </q-chip>
+    
     <apexchart type="donut" height="211" :options="agrupados[item.index].charOptions"  :series="agrupados[item.index].series"  />
   </div>
       </div>
+
+     
   </div>
 
   
@@ -41,57 +45,6 @@ export default {
         proyectos:[],       
         estadotarea:'',
         idpro:'',
-
-     series: [44, 55],
-      chartOptions: {
-        colors: ['#008FFB', '#00E396', '#FEB019'],
-        animations: {
-          enabled: true,
-          easing: 'easeinout',
-          speed: 1000
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            type: 'vertical',
-            shadeIntensity: 0.05,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 0.9,
-            stops: [0, 100]
-          }
-        },
-        chart: {
-          toolbar: {
-            show: true
-          }
-        },
-        title: {
-          text: 'Donut',
-          align: 'left',
-          style: {
-            color: '#FFF'
-          }
-        },
-        labels: ['Apple', 'Mango',],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 250
-            },
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }],
-        legend: {
-          labels: {
-            colors: '#FFF'
-          }
-        }
-      }
     
 
         
@@ -128,7 +81,8 @@ export default {
 
            ListaDeProyectos2(){
                   let me=this;   
-                   this.$axios.get('Proyecto/Listar/').then(response => {                           
+                   this.$axios.get('Proyecto/Listar/').then(response => {   
+                    // if ()  
                        me.agrupados = response.data;     
                        ///:options="agrupados[item.index].charOptions"  :series="agrupados[item.index].series" 
                        console.log(response.data);                
@@ -140,16 +94,16 @@ export default {
                                  }                                
                                }                    
                            } 
-                        for (let index = 0; index <  me.agrupados.length; index++) {
-                            if ( me.agrupados[index].series.length==0) {                                                      
-                                me.agrupados.splice(index,1);                                  
-                            } 
-                          }                  
-
+                      ///   for (let index = 0; index <  me.agrupados.length; index++) {
+                      ///      if ( me.agrupados[index].series.length==0) {                                                      
+                       ///         me.agrupados.splice(index,1);                                  
+                       ///     } 
+                       ///   }                  
                         }).catch(function (error) {
                             console.log(error);
                       }) .finally(() => {                          
-                })
+                })                      
+              
            },
          
             datos(nombreEstado){           

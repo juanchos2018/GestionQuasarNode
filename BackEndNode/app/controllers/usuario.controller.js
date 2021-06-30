@@ -18,7 +18,7 @@ function ListaProyectoMiembro(req, res) {
 }
 function ListaProyectoJefe(req, res) {   
     const { id } = req.params
-    console.log("llega: "+id);
+    ///console.log("llega: "+id);
     dataModels.ListaProyectoJefe(id, (data, error) => {
         res.json(data)
     })

@@ -22,15 +22,11 @@
         <q-input v-model="fecha_fin" filled type="date"  />
         </div>           
       </div>
-      <div class="row">
+      <div class="row">  
          <div class="col-6" style="padding: 0px 1% 0px">
                 <q-select outlined v-model="metodologiaId" :options="metodologias" label="Metologia"  :value="metodologiaId" @input="val => { handleChange(metodologiaId) }" />
-            
-            
+                        
              </div>   
-
-
-
 
       </div>    
  <div>
@@ -39,7 +35,7 @@
       style="height: 250px"
     > 
       <template  v-slot:before >
-         <div v-for="item in fases" :key="item.key"  @click="Ver(item.index)" >
+         <div v-for="item in fases" :key="item.key"  @click="onChanges(item.index)" >
              <q-tabs
               v-model="tab"
               vertical            
@@ -63,8 +59,8 @@
         <q-tab-panel name="mails">   
            <q-table
           title="Elementos Configuracion"  
-
-           :data="fases[tabIndex].tabla"  
+ hide-header
+            :data="fases[tabIndex].tabla"  
            :columns="fields"
           row-key="NombreElemento"
           :selected-rows-label="getSelectedString"
@@ -82,7 +78,6 @@
 
   </div>
       <div>
-        <p>{{usuariojefeId}}</p>
         <q-btn label="Rrgistrar" type="button" @click="RegistrarProyecto" color="primary"/>
         <q-btn label="Cancelar" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
@@ -147,6 +142,7 @@ export default {
           }
       },   
     created(){
+     //  this.ListarTodasPlantillas();
        this.ListarTodasPlantillas();
        this.ListarMetodologias();
     },
@@ -157,10 +153,7 @@ export default {
      
     },
     methods:{      
-      Ver(value){
-        this.tabIndex=value;
-        console.log(value)
-      },
+      
        getSelectedString () {
         return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
        },
@@ -191,8 +184,7 @@ export default {
           //nombre_proyecto,fecha_inicio,fecha_termino,descripcion,estado,metodologiaId,usuariojefeId,porcentaje,ListaFases
          // const obj={codigo,nombre,fechaini,fechater,descripcion,estado,metodologia,usuariojefeId,lista,ListaElementos,porcentaje};
           this.$axios.post('Proyecto/Agregar/',obj).then(response => {                       
-                 console.log(response);
-                 
+                 console.log(response);                 
                 //  this. Confirmacion();
                   var estado=response.data.estado;                 
                     if(estado=="Existe"){
@@ -262,7 +254,7 @@ export default {
           MostarFaseMetodolgia(metodologiaId){
                 let me=this;
                me.Limpiar();
-                this.$axios.get('metodologia/Fases/'+metodologiaId).then(response => {             
+                this.$axios.get('metodologia/Fases/'+metodologiaId).then(response => {            
                   
                     console.log(response.data)
                     if ( response.data.length>0) {
@@ -295,16 +287,27 @@ export default {
                   }) .finally(() => {
               })
           },
-          onChange(current) {
+
+          Ver(value){
+            this.tabIndex=value;
+            console.log(value)
+            var code =this.fases[value].id_fase;           
+            console.log("id fase= "+code);
+            //this.ListarElemtosFase(code);
+
+          },
+
+          onChanges(current) {
               console.log('onChange:', current);
-              this.current = current;
+            this.tabIndex=current;            
+           //   this.current = current;
               var code =this.fases[current].id_fase;           
               console.log("id fase= "+code);
-              this.ListarElemtosFase(code);
+             // this.ListarElemtosFase(code);  
           },
           ListarElemtosFase(id_fase){
               let me=this;
-              axios.get('ApiWeb/PlantillaElemento.php/?faseId='+id_fase).then(response => {     
+              this.$axios.get('PlantillaElemento/'+id_fase).then(response => {     
                   console.log(response.data)            
                     me.plantillaelemento = response.data;     
                              
@@ -314,9 +317,13 @@ export default {
               })
           }, 
           ListarTodasPlantillas(){
-              let me=this;                 
-              this.$axios.get('PlantillaElemento/ListarPlantilla/',).then(function(response){                      
-                  me.TodasPlantillas=response.data;    
+              let me=this;               
+              
+              
+                console.log("todos los elemetos")  
+                this.$axios.get('PlantillaElemento/ListarPlantilla/',).then(function(response){                      
+                  me.TodasPlantillas=response.data;  
+                
                  console.log(response.data);  
               }).catch(function(error){
                   console.log(error);

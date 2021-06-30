@@ -1,7 +1,7 @@
 <template>
      <q-page class="q-pa-md">
         <h5> Proyectos </h5>             
-     <q-btn color="primary" style="width: 150px"  @click="IdProyecto">
+     <q-btn color="primary" style="width: 150px"  @click="ProyectoNuevo">
          <div class="ellipsis">
             Agregar
             </div>            
@@ -94,17 +94,16 @@ export default {
             //  this.ListarProyecto();
         },
         methods:{
-            IdProyecto(){
+            ProyectoNuevo(){
                   this.$router.push({name:"proyectonuevo" });   
             },           
             ListarPoryectosUsuario(id){
              let me=this;
-                if (id=="") {
+                if (id=="") {                  
                     alert("llega vacio")
                     return;
                 }
-            
-               this.$axios.get('Usuario/ListaProyectoJefe/'+id).then(response => {                    
+             this.$axios.get('Usuario/ListaProyectoJefe/'+id).then(response => {                    
                       me.items = response.data;  
                      console.log(response.data);   
                       me.LisrarMiembrosProyecto();                 
@@ -112,6 +111,7 @@ export default {
                       console.log(error);
                 }) .finally(() => {                     
                 })
+              
            },    
            LisrarMiembrosProyecto(){
               let me=this;              

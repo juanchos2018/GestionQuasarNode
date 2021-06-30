@@ -68,26 +68,30 @@ var dataModels = {
                 labels:datos
             }         
             let sql = `SELECT p.id_proyecto,p.codigo_proyecto,p.nombre_proyecto,p.fecha_inicio,p.fecha_termino,p.descripcion,p.estado ,
-            m.nombre FROM proyecto AS p
+            m.nombre,p.porcentaje FROM proyecto AS p
             INNER JOIN metodologia AS m
             ON p.metodologiaId=m.id_metodologia`
             connection.query(sql, (error, rows) => {
                 if(error) throw error              
-                 rows.forEach( (row) => {                                     
-                            data.push({
-                                id_proyecto:       row.id_proyecto,
-                                codigo_proyecto:   row.codigo_proyecto,
-                                nombre_proyecto:   row.nombre_proyecto,
-                                fecha_inicio:      row.fecha_inicio,
-                                fecha_termino:     row.fecha_termino,
-                                descripcion:       row.descripcion,
-                                estado:            row.estado,
-                                nombre_metodologia:row.nombre,
-                                listaMiembro:      listaMiembro,
-                                series:            series,
-                                index:             contador,
-                                charOptions:       charOptions });
-                            contador++;    
+                 rows.forEach( (row) => {                        
+                    if(row.porcentaje!=0){
+                        data.push({                               
+                            id_proyecto:       row.id_proyecto,
+                            porcentaje :        row.porcentaje,
+                            codigo_proyecto:   row.codigo_proyecto,
+                            nombre_proyecto:   row.nombre_proyecto,
+                            fecha_inicio:      row.fecha_inicio,
+                            fecha_termino:     row.fecha_termino,
+                            descripcion:       row.descripcion,
+                            estado:            row.estado,
+                            nombre_metodologia:row.nombre,
+                            listaMiembro:      listaMiembro,
+                            series:            series,
+                            index:             contador,
+                            charOptions:       charOptions });
+
+                            contador++;   
+                              }       
                         });                                 
                   callback(data)
             })

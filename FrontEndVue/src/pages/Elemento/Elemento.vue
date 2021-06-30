@@ -6,11 +6,20 @@
         Agregar
       </div>
     </q-btn>
+   <div class="q-gutter-y-md column" style="max-width: 500px;float:right">
+       <q-input outlined bottom-slots v-model="search" label="Buscar" counter maxlength="52" >
+              <template v-slot:append>
+          <q-icon v-if="search !== ''" name="close" @click="text = ''" class="cursor-pointer" />
+          <q-icon name="search" />
+        </template>
+        
+      </q-input>
+   </div>
 
-    <br /><br />
+    <br /><br /><br>
     
     <div class=" row">
-      <div class=" q-pa-md col-4" v-for="item in items" :key="item.key">
+      <div class=" q-pa-md col-4" v-for="item in FilterList" :key="item.key">
         <q-card class="my-card" flat bordered>
           <q-card-section horizontal>
             <q-card-section class="q-pt-xs">
@@ -50,13 +59,18 @@
 
 <script>
 import ElementoNuevo from "./ElementoNuevo";
+
+import { ref } from 'vue'
+
 export default {
   components: { ElementoNuevo },
   data() {
     return {
-      items: [],
+
+      search:'',      
+      items: [],      
       elementos: [],
-       id_elemento: "",
+      id_elemento: "",
       DialogoElemento: false,
       DialogoModificar: false,
      
@@ -68,6 +82,7 @@ export default {
   created() {
     this.ListaElemento();
   },
+  
   methods: {
     ListaElemento() {
       let me = this;
@@ -84,6 +99,13 @@ export default {
     CerrarModal() {
       this.DialogoElemento = false;
     }
-  }
-};
+  },
+   computed: {
+            FilterList() {
+                return this.items.filter(post => {
+                return post.nombre.toLowerCase().includes(this.search.toLowerCase())
+               })
+            }
+        }
+}
 </script>

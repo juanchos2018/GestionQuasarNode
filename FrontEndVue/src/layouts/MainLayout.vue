@@ -27,10 +27,10 @@
       <q-list>
         <q-item-label   header  class="text-grey-8"  >
           <center>
-            <label for="">{{tipo_usuario}}</label>
+            <label  style="font-size: 25px;color: #1A86D0;  font-weight:bold" for="">{{tipo_usuario}}</label>
  
           </center>
-         
+         <hr>
         </q-item-label>
         <q-item clickable to="/">
           <q-item-section avatar>

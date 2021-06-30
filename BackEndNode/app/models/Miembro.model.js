@@ -34,7 +34,7 @@ var dataModels = {
     },
     AgregarMiembro : (data, callback) => {
         if(connection) {
-            let sqle= `select *  from  miembroproyecto where usuario_miembroid=${connection.escape(data.usuario_miembroid)} and  ${connection.escape(data.proyectoId)}`           
+            let sqle= `select *  from  miembroproyecto where usuario_miembroid=${connection.escape(data.usuario_miembroid)} and proyectoId=  ${connection.escape(data.proyectoId)}`           
             connection.query(sqle, (error,result, rows) => {
                 if(error) throw error               
                  var count =result.length;
